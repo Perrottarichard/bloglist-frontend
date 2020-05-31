@@ -1,8 +1,9 @@
 import React from 'react'
 import loginService from '../services/login'
+import blogService from '../services/blogs'
 
 const Login = (props) => {
-    const { setUser, username, setUsername, password, setPassword } = props
+    const { setUser, username, setUsername, password, setPassword, setLoggedIn, successMessage, setSuccessMessage, errorMessage, setErrorMessage } = props
 
     const handleChangeUser = (event) => {
         setUsername(event.target.value)
@@ -10,24 +11,42 @@ const Login = (props) => {
     const handleChangePass = (event) => {
         setPassword(event.target.value)
     }
-    const submitLogin = (e) => {
-        e.preventDefault()
-        let thisUser = {
-            username: username,
-            password: password
+    const submitLogin = async event => {
+        event.preventDefault()
+        try {
+            const user =
+                await loginService.login({ username, password })
+            window.localStorage.setItem(
+                'loggedBlogUser', JSON.stringify(user)
+            )
+            blogService.setToken(user.token)
+            setUser(user)
+            setSuccessMessage(`Welcome back ${user.username}`)
+            setTimeout(() => {
+                setSuccessMessage('')
+                setLoggedIn(true)
+            }, 1000);
+            setUsername('')
+            setPassword('')
+            console.log(user)
         }
-        loginService.login(thisUser).then(user => setUser(user))
+        catch (error) {
+            setErrorMessage('Sorry, please check that you typed your username and password correctly')
+            setTimeout(() => {
+                setErrorMessage('')
+            }, 3000);
+        }
     }
-
-
     return (
         <div>
+            <h2>Please enter your username and password to log in</h2>
             <form onSubmit={submitLogin}>
-                <input placeholder="username" onChange={handleChangeUser} value={username}></input>
-                <input placeholder="password"
-                    type="password" onChange={handleChangePass} value={password}></input>
+                Username: <input onChange={handleChangeUser} value={username}></input><br></br>
+                Password: <input type="password" onChange={handleChangePass} value={password}></input><br></br>
                 <button type="submit">Login</button>
             </form>
+            {(errorMessage !== '') ? <h3>{errorMessage}</h3> : null}
+            {(successMessage !== '') ? <h3>{successMessage}</h3> : null}
         </div>
     )
 }
