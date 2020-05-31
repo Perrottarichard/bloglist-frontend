@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
 const AddBlogForm = (props) => {
 
-    const { blogs, setBlogs, title, setTitle, author, setAuthor, url, setUrl, setSuccessMessage, setErrorMessage } = props
+    const { blogs, setBlogs, setSuccessMessage, setErrorMessage, AddBlogFormRef } = props
+    const [title, setTitle] = useState('')
+    const [author, setAuthor] = useState('')
+    const [url, setUrl] = useState('')
+
 
     const addBlog = async event => {
         event.preventDefault()
+        AddBlogFormRef.current.toggleVisibility()
         try {
             const newBlog = {
                 title: title,

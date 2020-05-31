@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
 const Login = (props) => {
-    const { setUser, username, setUsername, password, setPassword, setLoggedIn, successMessage, setSuccessMessage, errorMessage, setErrorMessage } = props
+    const { setUser, successMessage, setLoggedIn, setSuccessMessage, errorMessage, setErrorMessage } = props
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
 
     const handleChangeUser = (event) => {
         setUsername(event.target.value)

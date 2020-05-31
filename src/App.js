@@ -3,18 +3,16 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import AddBlogForm from './components/AddBlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState({})
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const AddBlogFormRef = React.createRef()
+
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -32,16 +30,29 @@ const App = () => {
     }
   }, [])
 
+  const upLike = async blog => {
+    try {
+      let updatedBlog = {
+        id: blog.id,
+        user: user.id,
+        title: blog.title,
+        author: blog.author,
+        url: blog.url,
+        likes: blog.likes + 1
+      }
+      await blogService.update(blog, updatedBlog)
+      setBlogs(blogs.map(blog => blog.title !== updatedBlog.title ? blog : updatedBlog))
+    } catch (error) {
+      console.log('boo')
+    }
+  }
+
   if (loggedIn === false) {
     return (
       <div>
         <Login
           user={user}
           setUser={setUser}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
           loggedIn={loggedIn}
           setLoggedIn={setLoggedIn}
           successMessage={successMessage}
@@ -58,25 +69,25 @@ const App = () => {
       <h4>{user.username} logged in</h4>
       {(errorMessage !== '') ? <h3>{errorMessage}</h3> : null}
       {(successMessage !== '') ? <h3>{successMessage}</h3> : null}
-      <AddBlogForm
-        blogs={blogs}
-        setBlogs={setBlogs}
-        title={title}
-        setTitle={setTitle}
-        author={author}
-        setAuthor={setAuthor}
-        url={url}
-        setUrl={setUrl}
-        successMessage={successMessage}
-        setSuccessMessage={setSuccessMessage}
-        errorMessage={errorMessage}
-        setErrorMessage={setErrorMessage} />
+      <Togglable buttonLabel="add blog" ref={AddBlogFormRef}>
+        <AddBlogForm
+          blogs={blogs}
+          setBlogs={setBlogs}
+          successMessage={successMessage}
+          setSuccessMessage={setSuccessMessage}
+          errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage}
+          AddBlogFormRef={AddBlogFormRef} />
+      </Togglable>
+
       {blogs.map(blog =>
         <Blog
           key={blog.id}
           blog={blog}
+          upLike={upLike}
         />
       )}
+
     </div>
   )
 }

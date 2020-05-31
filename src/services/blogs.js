@@ -20,8 +20,8 @@ const create = async newObject => {
 }
 
 const update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
-  return request.then(response => response.data)
+  const response = axios.put(`${baseUrl}/${id.id}`, newObject)
+  return response.data
 }
 
 export default { getAll, create, update, setToken }
