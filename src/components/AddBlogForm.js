@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const AddBlogForm = (props) => {
 
@@ -18,19 +19,19 @@ const AddBlogForm = (props) => {
                 author: author,
                 url: url
             }
-            await blogService.create(newBlog).then(response => setBlogs(blogs.concat(response)))
+            await blogService.create(newBlog).then(response => setBlogs(blogs.concat(response))) //using 'then' because I need the id from the response generated from mongoose to provide the unique key when mapping all blogs
             setSuccessMessage(`Congratulations! ${title} by ${author} has been added to your blog list.`)
             setTitle('')
             setAuthor('')
             setUrl('')
             setTimeout(() => {
                 setSuccessMessage('')
-            }, 3000);
+            }, 3000)
         } catch (error) {
             setErrorMessage('Sorry, that did not work')
             setTimeout(() => {
                 setErrorMessage('')
-            }, 3000);
+            }, 3000)
         }
 
     }
@@ -47,5 +48,8 @@ const AddBlogForm = (props) => {
             </form>
         </div >
     )
+}
+AddBlogForm.propTypes = {
+    blogs: PropTypes.array.isRequired,
 }
 export default AddBlogForm

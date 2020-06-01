@@ -3,7 +3,7 @@ import Togglable from './Togglable'
 
 const Blog = (props) => {
 
-  const { blog, upLike } = props
+  const { blog, upLike, user, deleteBlog } = props
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -16,11 +16,13 @@ const Blog = (props) => {
   return (
     <div style={blogStyle}>
       <div>
-        "<strong>{blog.title}"</strong> by: {blog.author}
+        <strong>{blog.title}</strong> by: {blog.author}
       </div>
       <Togglable buttonLabel="show">
         url: {blog.url} <br></br>
         likes: {blog.likes} <button onClick={() => upLike(blog)}>like</button><br></br>
+        owner: {blog.user.name} <br></br>
+        {user.name === blog.user.name ? <button onClick={() => deleteBlog(blog)}>delete</button> : null}
       </Togglable>
     </div>
   )

@@ -43,7 +43,20 @@ const App = () => {
       await blogService.update(blog, updatedBlog)
       setBlogs(blogs.map(blog => blog.title !== updatedBlog.title ? blog : updatedBlog))
     } catch (error) {
-      console.log('boo')
+      console.log(error)
+    }
+  }
+  const deleteBlog = async blog => {
+    let sure = window.confirm(`Are you sure you want to delete ${blog.title}?`)
+    if (sure) {
+      try {
+        let blogToDelete = blog
+        console.log(blog)
+        await blogService.remove(blogToDelete)
+        setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -80,14 +93,16 @@ const App = () => {
           AddBlogFormRef={AddBlogFormRef} />
       </Togglable>
 
-      {blogs.map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          upLike={upLike}
-        />
-      )}
-
+      {blogs.sort((a, b) => b.likes - a.likes)
+        .map(blog =>
+          <Blog
+            key={blog.id}
+            blog={blog}
+            upLike={upLike}
+            user={user}
+            deleteBlog={deleteBlog}
+          />
+        )}
     </div>
   )
 }

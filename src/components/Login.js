@@ -27,7 +27,7 @@ const Login = (props) => {
             setTimeout(() => {
                 setSuccessMessage('')
                 setLoggedIn(true)
-            }, 1000);
+            }, 1000)
             setUsername('')
             setPassword('')
             console.log(user)
@@ -36,7 +36,7 @@ const Login = (props) => {
             setErrorMessage('Sorry, please check that you typed your username and password correctly')
             setTimeout(() => {
                 setErrorMessage('')
-            }, 3000);
+            }, 3000)
         }
     }
     return (
