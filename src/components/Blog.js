@@ -14,15 +14,17 @@ const Blog = (props) => {
   }
 
   return (
-    <div style={blogStyle}>
-      <div>
+    <div style={blogStyle} >
+      <div className="blogShort">
         <strong>{blog.title}</strong> by: {blog.author}
       </div>
       <Togglable buttonLabel="show">
-        url: {blog.url} <br></br>
-        likes: {blog.likes} <button onClick={() => upLike(blog)}>like</button><br></br>
+        <div className="toggleDiv" >
+          url: {blog.url} <br></br>
+        likes: {blog.likes} <button className="like" onClick={() => upLike(blog)}>like</button><br></br>
         owner: {blog.user.name} <br></br>
-        {user.name === blog.user.name ? <button onClick={() => deleteBlog(blog)}>delete</button> : null}
+          {user.name === blog.user.name ? <button onClick={() => deleteBlog(blog)}>delete</button> : null}
+        </div>
       </Togglable>
     </div>
   )
