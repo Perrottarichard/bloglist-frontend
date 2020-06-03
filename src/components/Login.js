@@ -41,11 +41,11 @@ const Login = (props) => {
     }
     return (
         <div>
-            <h2>Please enter your username and password to log in</h2>
+            <h2>Login</h2>
             <form onSubmit={submitLogin}>
-                Username: <input onChange={handleChangeUser} value={username}></input><br></br>
-                Password: <input type="password" onChange={handleChangePass} value={password}></input><br></br>
-                <button type="submit">Login</button>
+                Username: <input id='username' onChange={handleChangeUser} value={username}></input><br></br>
+                Password: <input id='password' type="password" onChange={handleChangePass} value={password}></input><br></br>
+                <button id='submit-login' type="submit">Login</button>
             </form>
             {(errorMessage !== '') ? <h3>{errorMessage}</h3> : null}
             {(successMessage !== '') ? <h3>{successMessage}</h3> : null}

@@ -21,8 +21,8 @@ const Blog = (props) => {
       <Togglable buttonLabel="show">
         <div className="toggleDiv" >
           url: {blog.url} <br></br>
-        likes: {blog.likes} <button className="like" onClick={() => upLike(blog)}>like</button><br></br>
-        owner: {blog.user.name} <br></br>
+        likes: {blog.likes} <button id='like' className="like" onClick={() => upLike(blog)}>like</button><br></br>
+        owner: {blog.user.username} <br></br>
           {user.name === blog.user.name ? <button onClick={() => deleteBlog(blog)}>delete</button> : null}
         </div>
       </Togglable>

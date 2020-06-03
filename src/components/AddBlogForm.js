@@ -37,12 +37,12 @@ const AddBlogForm = (props) => {
     }
     return (
         < div >
-            <form onSubmit={addBlog}>
-                Title: <input onChange={({ target }) => setTitle(target.value)} value={title}>
+            <form id='form' onSubmit={addBlog}>
+                Title: <input id="title" onChange={({ target }) => setTitle(target.value)} value={title}>
                 </input><br></br>
-      Author: <input onChange={({ target }) => setAuthor(target.value)} value={author}>
+      Author: <input id='author' onChange={({ target }) => setAuthor(target.value)} value={author}>
                 </input><br></br>
-      url: <input onChange={({ target }) => setUrl(target.value)} value={url}>
+      url: <input id="url" onChange={({ target }) => setUrl(target.value)} value={url}>
                 </input><br></br>
                 <button type="submit">Create</button><br></br>
             </form>

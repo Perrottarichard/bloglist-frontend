@@ -34,7 +34,7 @@ const App = () => {
     try {
       let updatedBlog = {
         id: blog.id,
-        user: user.id,
+        user: user,
         title: blog.title,
         author: blog.author,
         url: blog.url,
@@ -51,9 +51,12 @@ const App = () => {
     if (sure) {
       try {
         let blogToDelete = blog
-        console.log(blog)
         await blogService.remove(blogToDelete)
         setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
+        setSuccessMessage(`${blogToDelete.title} by ${blogToDelete.author} has been deleted.`)
+        setTimeout(() => {
+          setSuccessMessage('')
+        }, 3000)
       } catch (error) {
         console.log(error)
       }
@@ -92,17 +95,20 @@ const App = () => {
           setErrorMessage={setErrorMessage}
           AddBlogFormRef={AddBlogFormRef} />
       </Togglable>
-
-      {blogs.sort((a, b) => b.likes - a.likes)
-        .map(blog =>
-          <Blog
-            key={blog.id}
-            blog={blog}
-            upLike={upLike}
-            user={user}
-            deleteBlog={deleteBlog}
-          />
-        )}
+      <div id='blog-list'>
+        {blogs.sort((a, b) => b.likes - a.likes)
+          .map(blog =>
+            <div id='each-blog'>
+              <Blog
+                key={blog.id}
+                blog={blog}
+                upLike={upLike}
+                user={user}
+                deleteBlog={deleteBlog}
+              />
+            </div>
+          )}
+      </div>
     </div>
   )
 }
