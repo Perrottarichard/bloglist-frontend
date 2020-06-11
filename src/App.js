@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import AddBlogForm from './components/AddBlogForm'
 import Togglable from './components/Togglable'
+import { initializeBlogs } from './reducers/blogReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState({})
   const [loggedIn, setLoggedIn] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const AddBlogFormRef = React.createRef()
 
+  const blogs = useSelector(state => state.blogs)
 
+  const dispatch = useDispatch()
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
@@ -30,38 +31,38 @@ const App = () => {
     }
   }, [])
 
-  const upLike = async blog => {
-    try {
-      let updatedBlog = {
-        id: blog.id,
-        user: user,
-        title: blog.title,
-        author: blog.author,
-        url: blog.url,
-        likes: blog.likes + 1
-      }
-      await blogService.update(blog, updatedBlog)
-      setBlogs(blogs.map(blog => blog.title !== updatedBlog.title ? blog : updatedBlog))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const deleteBlog = async blog => {
-    let sure = window.confirm(`Are you sure you want to delete ${blog.title}?`)
-    if (sure) {
-      try {
-        let blogToDelete = blog
-        await blogService.remove(blogToDelete)
-        setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
-        setSuccessMessage(`${blogToDelete.title} by ${blogToDelete.author} has been deleted.`)
-        setTimeout(() => {
-          setSuccessMessage('')
-        }, 3000)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
+  // const upLike = async blog => {
+  //   try {
+  //     let updatedBlog = {
+  //       id: blog.id,
+  //       user: user,
+  //       title: blog.title,
+  //       author: blog.author,
+  //       url: blog.url,
+  //       likes: blog.likes + 1
+  //     }
+  //     await blogService.update(blog, updatedBlog)
+  //     setBlogs(blogs.map(blog => blog.title !== updatedBlog.title ? blog : updatedBlog))
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  // const deleteBlog = async blog => {
+  //   let sure = window.confirm(`Are you sure you want to delete ${blog.title}?`)
+  //   if (sure) {
+  //     try {
+  //       let blogToDelete = blog
+  //       await blogService.remove(blogToDelete)
+  //       setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
+  //       setSuccessMessage(`${blogToDelete.title} by ${blogToDelete.author} has been deleted.`)
+  //       setTimeout(() => {
+  //         setSuccessMessage('')
+  //       }, 3000)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  // }
 
   if (loggedIn === false) {
     return (
@@ -88,7 +89,6 @@ const App = () => {
       <Togglable buttonLabel="add blog" ref={AddBlogFormRef}>
         <AddBlogForm
           blogs={blogs}
-          setBlogs={setBlogs}
           successMessage={successMessage}
           setSuccessMessage={setSuccessMessage}
           errorMessage={errorMessage}
@@ -102,9 +102,9 @@ const App = () => {
               <Blog
                 key={blog.id}
                 blog={blog}
-                upLike={upLike}
+                //upLike={upLike}
                 user={user}
-                deleteBlog={deleteBlog}
+              //deleteBlog={deleteBlog}
               />
             </div>
           )}

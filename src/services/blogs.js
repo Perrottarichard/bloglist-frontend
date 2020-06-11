@@ -6,9 +6,9 @@ const setToken = newToken => {
   token = `bearer ${newToken}`
 }
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+const getAll = async () => {
+  const response = await axios.get(baseUrl)
+  return response.data
 }
 
 const create = async newObject => {
@@ -33,4 +33,11 @@ const remove = blog => {
   return response.data
 }
 
-export default { getAll, create, update, setToken, remove }
+const voteUp = async (toUpdate) => {
+  const id = toUpdate.id
+  const votedObj = { ...toUpdate, votes: toUpdate.votes + 1 }
+  const response = await axios.put(`${baseUrl}/${id}`, votedObj)
+  return response.data
+}
+
+export default { getAll, create, update, setToken, remove, voteUp }
