@@ -10,21 +10,22 @@ const reducer = (state = [], action) => {
         case 'VOTE':
             const id = action.data.id
             const blogToChange = state.find(b => b.id === id)
-            const changedBlog = { ...blogToChange, votes: blogToChange.votes + 1 }
-            return state.map(b => b.id !== id ? b : changedBlog)
+            const changedBlog = { ...blogToChange, likes: blogToChange.likes + 1 }
+            return state.map(b => b.id === id ? changedBlog : b)
         default: return state
     }
 }
 export const upVote = (blog) => {
     return async dispatch => {
-        const updatedObject = await blogService.voteUp(blog)
+        const updatedObject = { ...blog, likes: blog.likes + 1 }
+        await blogService.voteUp(updatedObject)
         dispatch({
             type: 'VOTE',
             data: updatedObject
         })
     }
 }
-export const addBlog = (data) => {
+export const addBlog = data => {
     return async dispatch => {
         const newBlog = await blogService.create(data)
         dispatch({

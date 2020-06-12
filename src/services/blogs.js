@@ -35,8 +35,7 @@ const remove = blog => {
 
 const voteUp = async (toUpdate) => {
   const id = toUpdate.id
-  const votedObj = { ...toUpdate, votes: toUpdate.votes + 1 }
-  const response = await axios.put(`${baseUrl}/${id}`, votedObj)
+  const response = await axios.put(`${baseUrl}/${id}`, toUpdate)
   return response.data
 }
 

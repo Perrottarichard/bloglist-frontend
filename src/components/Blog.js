@@ -1,9 +1,12 @@
 import React from 'react'
 import Togglable from './Togglable'
+import { voteMessage, reset } from '../reducers/notificationReducer'
+import { upVote } from '../reducers/blogReducer'
+import { useDispatch } from 'react-redux'
 
 const Blog = (props) => {
-
-  const { blog, upLike, user, deleteBlog } = props
+  const dispatch = useDispatch()
+  const { blog, user, deleteBlog } = props
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -11,6 +14,13 @@ const Blog = (props) => {
     borderWidth: 1,
     marginBottom: 5,
     width: 250
+  }
+  const upLike = blog => {
+    dispatch(upVote(blog))
+    dispatch(voteMessage())
+    setTimeout(() => {
+      dispatch(reset())
+    }, 3000);
   }
 
   return (

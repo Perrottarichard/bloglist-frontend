@@ -4,14 +4,13 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import AddBlogForm from './components/AddBlogForm'
+import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { initializeBlogs } from './reducers/blogReducer'
 
 const App = () => {
   const [user, setUser] = useState({})
   const [loggedIn, setLoggedIn] = useState(false)
-  const [successMessage, setSuccessMessage] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
   const AddBlogFormRef = React.createRef()
 
   const blogs = useSelector(state => state.blogs)
@@ -31,22 +30,7 @@ const App = () => {
     }
   }, [])
 
-  // const upLike = async blog => {
-  //   try {
-  //     let updatedBlog = {
-  //       id: blog.id,
-  //       user: user,
-  //       title: blog.title,
-  //       author: blog.author,
-  //       url: blog.url,
-  //       likes: blog.likes + 1
-  //     }
-  //     await blogService.update(blog, updatedBlog)
-  //     setBlogs(blogs.map(blog => blog.title !== updatedBlog.title ? blog : updatedBlog))
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+
   // const deleteBlog = async blog => {
   //   let sure = window.confirm(`Are you sure you want to delete ${blog.title}?`)
   //   if (sure) {
@@ -72,10 +56,6 @@ const App = () => {
           setUser={setUser}
           loggedIn={loggedIn}
           setLoggedIn={setLoggedIn}
-          successMessage={successMessage}
-          setSuccessMessage={setSuccessMessage}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
         />
       </div>
     )
@@ -83,22 +63,17 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification />
       <h4>{user.username} logged in</h4>
-      {(errorMessage !== '') ? <h3>{errorMessage}</h3> : null}
-      {(successMessage !== '') ? <h3>{successMessage}</h3> : null}
       <Togglable buttonLabel="add blog" ref={AddBlogFormRef}>
         <AddBlogForm
           blogs={blogs}
-          successMessage={successMessage}
-          setSuccessMessage={setSuccessMessage}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
           AddBlogFormRef={AddBlogFormRef} />
       </Togglable>
       <div id='blog-list'>
         {blogs.sort((a, b) => b.likes - a.likes)
           .map(blog =>
-            <div id='each-blog'>
+            <div id='each-blog' key={blog.id}>
               <Blog
                 key={blog.id}
                 blog={blog}
