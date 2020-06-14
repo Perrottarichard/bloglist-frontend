@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { badLogin, goodLogin, reset } from '../reducers/notificationReducer'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import { setUser } from '../reducers/userReducer'
 
 const Login = (props) => {
-    const { setUser, successMessage, setLoggedIn, setSuccessMessage, errorMessage, setErrorMessage } = props
+    const { setLoggedIn } = props
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const dispatch = useDispatch()
 
     const handleChangeUser = (event) => {
         setUsername(event.target.value)
@@ -22,20 +26,21 @@ const Login = (props) => {
                 'loggedBlogUser', JSON.stringify(user)
             )
             blogService.setToken(user.token)
-            setUser(user)
-            setSuccessMessage(`Welcome back ${user.username}`)
+            dispatch(setUser(user))
+            setLoggedIn(true)
+            dispatch(goodLogin())
             setTimeout(() => {
-                setSuccessMessage('')
-                setLoggedIn(true)
+                dispatch(reset())
+
             }, 1000)
             setUsername('')
             setPassword('')
             console.log(user)
         }
         catch (error) {
-            setErrorMessage('Sorry, please check that you typed your username and password correctly')
+            dispatch(badLogin())
             setTimeout(() => {
-                setErrorMessage('')
+                dispatch(reset())
             }, 3000)
         }
     }
@@ -47,8 +52,6 @@ const Login = (props) => {
                 Password: <input id='password' type="password" onChange={handleChangePass} value={password}></input><br></br>
                 <button id='submit-login' type="submit">Login</button>
             </form>
-            {(errorMessage !== '') ? <h3>{errorMessage}</h3> : null}
-            {(successMessage !== '') ? <h3>{successMessage}</h3> : null}
         </div>
     )
 }
