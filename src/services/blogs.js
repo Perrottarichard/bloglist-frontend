@@ -24,12 +24,11 @@ const update = (blog, newObject) => {
   return response.data
 }
 
-const remove = blog => {
+const remove = async blog => {
   const config = {
     headers: { Authorization: token },
   }
-  console.log(blog.id)
-  const response = axios.delete(`${baseUrl}/${blog.id}`, config)
+  const response = await axios.delete(`${baseUrl}/${blog.id}`, config)
   return response.data
 }
 

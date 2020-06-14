@@ -1,12 +1,12 @@
 import React from 'react'
 import Togglable from './Togglable'
-import { voteMessage, reset } from '../reducers/notificationReducer'
-import { upVote } from '../reducers/blogReducer'
+import { voteMessage, deleteMessage, reset } from '../reducers/notificationReducer'
+import { upVote, deleteBlog } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 
 const Blog = (props) => {
   const dispatch = useDispatch()
-  const { blog, user, deleteBlog } = props
+  const { blog, user } = props
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -22,6 +22,14 @@ const Blog = (props) => {
       dispatch(reset())
     }, 3000);
   }
+  const removeBlog = blog => {
+    dispatch(deleteBlog(blog))
+    dispatch(deleteMessage())
+    setTimeout(() => {
+      dispatch(reset())
+    }, 3000);
+
+  }
 
   return (
     <div style={blogStyle} >
@@ -33,7 +41,7 @@ const Blog = (props) => {
           url: {blog.url} <br></br>
         likes: {blog.likes} <button id='like' className="like" onClick={() => upLike(blog)}>like</button><br></br>
         owner: {blog.user.username} <br></br>
-          {user.name === blog.user.name ? <button onClick={() => deleteBlog(blog)}>delete</button> : null}
+          {user.name === blog.user.name ? <button onClick={() => removeBlog(blog)}>delete</button> : null}
         </div>
       </Togglable>
     </div>

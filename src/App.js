@@ -30,24 +30,6 @@ const App = () => {
     }
   }, [])
 
-
-  // const deleteBlog = async blog => {
-  //   let sure = window.confirm(`Are you sure you want to delete ${blog.title}?`)
-  //   if (sure) {
-  //     try {
-  //       let blogToDelete = blog
-  //       await blogService.remove(blogToDelete)
-  //       setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
-  //       setSuccessMessage(`${blogToDelete.title} by ${blogToDelete.author} has been deleted.`)
-  //       setTimeout(() => {
-  //         setSuccessMessage('')
-  //       }, 3000)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  // }
-
   if (loggedIn === false) {
     return (
       <div>
@@ -77,9 +59,7 @@ const App = () => {
               <Blog
                 key={blog.id}
                 blog={blog}
-                //upLike={upLike}
                 user={user}
-              //deleteBlog={deleteBlog}
               />
             </div>
           )}

@@ -5,6 +5,8 @@ const notificationReducer = (state = nada, action) => {
             return action.message
         case 'CREATE_MESSAGE':
             return action.message
+        case 'DELETE_MESSAGE':
+            return action.message
         case 'RESET':
             return nada
         default:
@@ -27,6 +29,12 @@ export const reset = () => {
     return {
         type: 'RESET',
         message: nada
+    }
+}
+export const deleteMessage = () => {
+    return {
+        type: 'DELETE_MESSAGE',
+        message: `You deleted a blog`
     }
 }
 
