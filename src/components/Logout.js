@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { clearUser } from '../reducers/userReducer'
+import { Button } from 'react-bootstrap'
 
 const Logout = (props) => {
     const { setLoggedIn } = props
@@ -13,8 +14,8 @@ const Logout = (props) => {
 
     }
     return (
-        <div>
-            <button onClick={logout}>logout</button>
+        <div id='logout'>
+            <Button onClick={logout} variant='outline-light'>logout</Button>
         </div>
     )
 }

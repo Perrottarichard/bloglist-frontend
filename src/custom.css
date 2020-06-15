@@ -1,0 +1,17 @@
+#navbar {
+  color: white;
+  float: inline-end;
+  align-items: center;
+  justify-content: space-around;
+}
+#delete {
+  margin: 5px;
+}
+#like {
+  margin: 5px;
+}
+#logout {
+  align-self: right;
+  margin-left: 20px;
+}
+

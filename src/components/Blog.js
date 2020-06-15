@@ -3,6 +3,7 @@ import { voteMessage, deleteMessage, reset } from '../reducers/notificationReduc
 import { upVote, deleteBlog } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import { Jumbotron, Table, Button } from 'react-bootstrap'
 
 const Blog = (props) => {
   const dispatch = useDispatch()
@@ -29,14 +30,28 @@ const Blog = (props) => {
   }
   if (blog) {
     return (
-      <div className="blogDiv" >
-        <h3>Title: {blog.title}</h3>
-        <h3>Author: {blog.author}</h3>
-      url: {blog.url} <br></br>
-        likes: {blog.likes} <button id='like' className="like" onClick={() => upLike(blog)}>like</button><br></br>
-        owner: {blog.user.username} <br></br>
-        {user.name === blog.user.name ? <button onClick={() => removeBlog(blog)}>delete</button> : null}
-      </div>
+      <Jumbotron fluid>
+        <Table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th>url</th>
+              <th>likes</th>
+              <th>owner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>{blog.title}</td>
+              <td>{blog.author}</td>
+              <td>{blog.url}</td>
+              <td>{blog.likes}</td>
+              <td>{blog.user.username}</td></tr>
+          </tbody>
+        </Table>
+        <Button id='like' variant='outline-primary' onClick={() => upLike(blog)}>like</Button>
+        {user.name === blog.user.name ? <Button id='delete' variant='outline-danger' onClick={() => removeBlog(blog)}>delete</Button> : null}
+      </Jumbotron>
     )
   }
   else {

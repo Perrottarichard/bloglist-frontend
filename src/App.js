@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Menu from './components/Menu'
 import BlogList from './components/BlogList'
 import Blog from './components/Blog'
 import UserList from './components/UserList'
 import blogService from './services/blogs'
 import Login from './components/Login'
-import Logout from './components/Logout'
 import AddBlogForm from './components/AddBlogForm'
 import SingleUser from './components/SingleUser'
 import Notification from './components/Notification'
@@ -57,11 +56,10 @@ const App = () => {
   return (
     <Router>
       <div className="container">
-        <Menu />
-        <Notification />
-        <h4>{user.username} logged in</h4>
-        <Logout
+        <Menu
+          user={user}
           setLoggedIn={setLoggedIn} />
+        <Notification />
         <Togglable buttonLabel="add blog" ref={AddBlogFormRef}>
           <AddBlogForm
             blogs={blogs}
