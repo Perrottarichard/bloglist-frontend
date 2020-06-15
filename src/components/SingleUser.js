@@ -1,16 +1,25 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
 const SingleUser = (props) => {
-    console.log(props)
     const { allUsers } = props
     const id = useParams().id
     const user = allUsers.filter(u => u.id === id)
-    console.log(user)
     if (user) {
         return (
             <div>
-                {user.map(u => u.blogs.map(b => <li key={b.id}>Title: {b.title} By:{b.author}</li>))}
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {user.map(u => u.blogs.map(b => <tr key={b.id}><td>{b.title}</td><td>{b.author}</td></tr>))}
+                    </tbody>
+                </Table>
             </div>
         )
     }

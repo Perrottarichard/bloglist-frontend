@@ -56,7 +56,7 @@ const App = () => {
   }
   return (
     <Router>
-      <div>
+      <div className="container">
         <Menu />
         <Notification />
         <h4>{user.username} logged in</h4>

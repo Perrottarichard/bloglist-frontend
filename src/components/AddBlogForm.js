@@ -4,6 +4,7 @@ import { addBlog } from '../reducers/blogReducer'
 import { createMessage, reset } from '../reducers/notificationReducer'
 import { useField } from '../hooks'
 import { useDispatch } from 'react-redux'
+import { Form, FormLabel, FormControl, FormGroup, Button } from 'react-bootstrap'
 
 
 const AddBlogForm = (props) => {
@@ -28,16 +29,15 @@ const AddBlogForm = (props) => {
         }, 3000);
     }
     return (
-        < div >
-            <form id='form' onSubmit={addNew}>
-                Title: <input id="title" {...title}>
-                </input><br></br>
-      Author: <input id='author' {...author}>
-                </input><br></br>
-      url: <input id="url" {...url}>
-                </input><br></br>
-                <button type="submit">Create</button><br></br>
-            </form>
+        < div className='container'>
+            <Form id='form' onSubmit={addNew}>
+                <FormGroup>
+                    <FormLabel>Title:</FormLabel><FormControl id="title" onChange={title.onChange} value={title.value}></FormControl>
+                    <FormLabel>Author:</FormLabel><FormControl id='author' onChange={author.onChange} value={author.value}></FormControl>
+                    <FormLabel>url:</FormLabel><FormControl id="url" onChange={url.onChange} value={url.value}></FormControl>
+                    <Button type="submit">Create</Button><br></br>
+                </FormGroup>
+            </Form>
         </div >
     )
 }

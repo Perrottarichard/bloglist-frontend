@@ -4,6 +4,7 @@ import { badLogin, goodLogin, reset } from '../reducers/notificationReducer'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 import { setUser } from '../reducers/userReducer'
+import { Form, FormLabel, FormControl, FormGroup, Button } from 'react-bootstrap'
 
 const Login = (props) => {
     const { setLoggedIn } = props
@@ -45,13 +46,16 @@ const Login = (props) => {
         }
     }
     return (
-        <div>
+        <div className='container'>
             <h2>Login</h2>
-            <form onSubmit={submitLogin}>
-                Username: <input id='username' onChange={handleChangeUser} value={username}></input><br></br>
-                Password: <input id='password' type="password" onChange={handleChangePass} value={password}></input><br></br>
-                <button id='submit-login' type="submit">Login</button>
-            </form>
+            <Form onSubmit={submitLogin}>
+                <FormGroup>
+                    <FormLabel>Username:</FormLabel>
+                    <FormControl onChange={handleChangeUser} value={username}></FormControl>
+                    <FormLabel>Password:</FormLabel> <FormControl id='password' type="password" onChange={handleChangePass} value={password}></FormControl>
+                    <Button id='submit-login' type="submit">Login</Button>
+                </FormGroup>
+            </Form>
         </div>
     )
 }
